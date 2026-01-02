@@ -8,6 +8,7 @@ This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ### Added
 
+- Added a notification bot to notify the team when a Good First Issue Candidate is created. [(#1296)]
 - Added Hbar object support for TransferTransaction HBAR transfers:
   - Methods now accept `Union[int, Hbar]` for amount parameters with immediate normalization to tinybars
   - Includes comprehensive unit tests covering various Hbar units (HBAR, MICROBAR, NANOBAR, TINYBAR) and accumulation behavior with mixed `int` and `Hbar` inputs
