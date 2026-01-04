@@ -1,6 +1,6 @@
 # This workflow notifies the GFI support team when an issue is labeled as GFI Candidate.
 
-name: GFI Candidate Notification
+name: Good First Issue Candidate Notification
 
 on:
   issues:
@@ -15,6 +15,7 @@ jobs:
   gfi_candidate_notify_team:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'good first issue candidate')
+
 
     steps:
       - name: Harden the runner

@@ -22,7 +22,7 @@ Python SDK team`;
       issue_number: issue.number,
       body: comment,
     });
-    console.log(`Notified team about GFI candidate #${issue.number}`);
+    console.log(`[Good First Issue Candidate]: Notified team about #${issue.number}`);
     return true;
   } catch (err) {
     console.log(
@@ -43,7 +43,7 @@ module.exports = async ({ github, context }) => {
     }
 
     //  Only handle Good First Issue Candidate
-    if (label.name !== 'Good First Issue Candidate') {
+    if (label.name !== 'good first issue candidate') {
       return;
     }
 
