@@ -14,9 +14,7 @@ permissions:
 jobs:
   gfi_candidate_notify_team:
     runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'issues' &&
-      github.event.label.name == 'Good First Issue Candidate'
+    if: contains(github.event.issue.labels.*.name, 'good first issue candidate')
 
     steps:
       - name: Harden the runner
@@ -27,11 +25,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
-      - name: Notify team of GFI candidate
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
-        with:
-          script: |
-            const script = require('./.github/scripts/bot-gfi-candidate-notification.js');
-            await script({ github, context });
+      - name: Log issue info (fork-safe)
+        run: |
+          echo "Fork test: Issue #${{ github.event.issue.number }} labeled: ${{ github.event.label.name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
