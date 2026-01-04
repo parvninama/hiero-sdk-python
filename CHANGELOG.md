@@ -12,7 +12,11 @@ This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.
 =======
 - Added a notification workflow for newly Good First Issue candidates.
 [(#1296)]
+<<<<<<< HEAD
 >>>>>>> ff9f87c (feat: add notification workflow for Good First Issue candidates)
+=======
+- Beginner issue documentation and updated GFI and GFIC templates and documentation
+>>>>>>> 2910ac3 (docs: create beginner issue guidelines  (#1325))
 - Enable auto assignment to good first issues (#1312), archived good first issue support team notification. Changed templates with new assign instruction.
 - Added unit test for 'endpoint.py' to increase coverage.
 - Automated assignment guard for `advanced` issues; requires completion of at least one `good first issue` and one `intermediate` issue before assignment (exempts maintainers, committers, and triage members). (#1142)
