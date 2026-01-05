@@ -7,15 +7,17 @@ This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.
 ## [Unreleased]
 
 ### Added
+
 - Added a notification workflow that alerts the support team when an issue is labeled as a Good First Issue Candidate.[(#1296)]
+- Added comprehensive training documentation for the `Query` class, covering execution flow, payments, retries, and building child queries. (#1238)
+- Beginner issue documentation and updated GFI and GFIC templates and documentation
 - Enable auto assignment to good first issues (#1312), archived good first issue support team notification. Changed templates with new assign instruction.
 - Added unit test for 'endpoint.py' to increase coverage.
 - Automated assignment guard for `advanced` issues; requires completion of at least one `good first issue` and one `intermediate` issue before assignment (exempts maintainers, committers, and triage members). (#1142)
 - Added Hbar object support for TransferTransaction HBAR transfers:
-  - Methods now accept `Union[int, Hbar]` for amount parameters with immediate normalization to tinybars
-  - Includes comprehensive unit tests covering various Hbar units (HBAR, MICROBAR, NANOBAR, TINYBAR) and accumulation behavior with mixed `int` and `Hbar` inputs
-- Added a module-level docstring to the HBAR allowance approval example to clarify
-  delegated spending behavior and key concepts. [#1202](https://github.com/hiero-ledger/hiero-sdk-python/issues/1202)
+- Methods now accept `Union[int, Hbar]` for amount parameters with immediate normalization to tinybars
+- Includes comprehensive unit tests covering various Hbar units (HBAR, MICROBAR, NANOBAR, TINYBAR) and accumulation behavior with mixed `int` and `Hbar` inputs
+- Added a module-level docstring to the HBAR allowance approval example to clarify delegated spending behavior and key concepts. [#1202](https://github.com/hiero-ledger/hiero-sdk-python/issues/1202)
 - Added a GitHub Actions workflow to validate broken Markdown links in pull requests.
 - Added method chaining examples to the developer training guide (`docs/sdk_developers/training/coding_token_transactions.md`) (#1194)
 - Added documentation explaining how to pin GitHub Actions to specific commit SHAs (`docs/sdk_developers/how-to-pin-github-actions.md`)(#1211)
@@ -34,7 +36,8 @@ This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - Added unit tests for `SubscriptionHandle` class covering cancellation state, thread management, and join operations.
 - Refactored `account_create_transaction_create_with_alias.py` example by splitting monolithic function into modular functions: `generate_main_and_alias_keys()`, `create_account_with_ecdsa_alias()`, `fetch_account_info()`, `print_account_summary()` (#1016)
 - Added `.github/workflows/bot-pr-auto-draft-on-changes.yml` to automatically convert PRs to draft and notify authors when reviewers request changes.
--
+- Add beginner issue template
+- Add relevant examples to the beginner issue template
 - Modularized `transfer_transaction_fungible` example by introducing `account_balance_query()` & `transfer_transaction()`.Renamed `transfer_tokens()` → `main()`
 - Phase 2 of the inactivity-unassign bot: Automatically detects stale open pull requests (no commit activity for 21+ days), comments with a helpful InactivityBot message, closes the stale PR, and unassigns the contributor from the linked issue.
 - Added `__str__()` to CustomFixedFee and updated examples and tests accordingly.
@@ -82,6 +85,8 @@ This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ### Changed
 
+- Renamed bot-inactivity workflow files to remove "-phase" suffix since the process no longer uses phased execution (#1339)
+- Renamed the GitHub notify team script to match its corresponding workflow filename for better maintainability (#1338)
 - style: apply black formatting to examples (#1299)
 -Update GitHub workflow names in `.github/workflows/bot-workflows.yml` to match correct references [(#1284)]
 - Renamed templates for improved clarity [(#1265)]

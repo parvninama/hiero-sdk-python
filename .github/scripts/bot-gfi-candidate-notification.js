@@ -3,7 +3,9 @@
 const marker = '<!-- GFI Candidate Notification -->';
 const TEAM_ALIAS = '@hiero-ledger/hiero-sdk-good-first-issue-support';
 
+
 async function notifyTeam(github, owner, repo, issue, message) {
+  const dryRun = process.env.DRY_RUN === 'true';
    if (dryRun) {
     console.log('Notified team about GFI candidate');
     console.log(`Repo: ${owner}/${repo}`);
@@ -50,13 +52,9 @@ module.exports = async ({ github, context }) => {
     }
 
     //  Only handle Good First Issue Candidate
-    if (label.name !== 'good first issue candidate') {
+    if (label.name.toLowerCase() !== 'good first issue candidate') {
       return;
     }
-
-    //
-    dryRun && console.log('DRY-RUN active');
-
 
     // Prevent duplicate notifications
     const comments = await github.paginate(
