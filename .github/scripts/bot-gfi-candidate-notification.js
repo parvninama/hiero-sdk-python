@@ -46,6 +46,7 @@ module.exports = async ({ github, context }) => {
   try {
     const { owner, repo } = context.repo;
     const { issue, label } = context.payload;
+    const dryRun = process.env.DRY_RUN === 'true';
 
     if (!issue?.number || !label?.name) {
       return console.log('Missing issue or label in payload');
@@ -55,6 +56,9 @@ module.exports = async ({ github, context }) => {
     if (label.name.toLowerCase() !== 'good first issue candidate') {
       return;
     }
+
+    // Checking dry run
+    dryRun && console.log('DRY-RUN active');
 
     // Prevent duplicate notifications
     const comments = await github.paginate(
@@ -69,7 +73,7 @@ module.exports = async ({ github, context }) => {
     const message =
       'A new Good First Issue Candidate has been created. Please review it and confirm whether it should be labeled as a Good First Issue.';
 
-    const success = await notifyTeam(github, owner, repo, issue, message);
+    const success = await notifyTeam(github, owner, repo, issue, message,dryRun);
 
     if (success) {
       console.log('=== Summary ===');
