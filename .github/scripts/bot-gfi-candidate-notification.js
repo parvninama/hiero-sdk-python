@@ -4,8 +4,7 @@ const marker = '<!-- GFI Candidate Notification -->';
 const TEAM_ALIAS = '@hiero-ledger/hiero-sdk-good-first-issue-support';
 
 
-async function notifyTeam(github, owner, repo, issue, message) {
-  const dryRun = process.env.DRY_RUN === 'true';
+async function notifyTeam(github, owner, repo, issue, message , dryRun) {
    if (dryRun) {
     console.log('Notified team about GFI candidate');
     console.log(`Repo: ${owner}/${repo}`);
