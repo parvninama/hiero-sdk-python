@@ -85,7 +85,7 @@ async function countCompletedBeginnerIssues(github, owner, repo, username) {
     const result = await github.graphql(
       `
       query ($searchQuery: String!) {
-        search(type: ISSUE, query: $query) {
+        search(type: ISSUE, query: $searchquery) {
           issueCount
         }
       }
