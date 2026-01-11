@@ -7,6 +7,10 @@ const EXEMPT_PERMISSION_LEVELS = (process.env.INTERMEDIATE_EXEMPT_PERMISSIONS ||
   .filter(Boolean);
 const DRY_RUN = /^true$/i.test(process.env.DRY_RUN || '');
 
+function isSafeSearchToken(value) {
+  return typeof value === 'string' && /^[a-zA-Z0-9._/-]+$/.test(value);
+}
+
 function hasLabel(issue, labelName) {
   if (!issue?.labels?.length) {
     return false;
@@ -52,50 +56,53 @@ async function hasExemptPermission(github, owner, repo, username) {
 }
 
 async function countCompletedBeginnerIssues(github, owner, repo, username) {
-  try {
-    console.log(`Checking closed '${BEGINNER_LABEL}' issues in ${owner}/${repo} for ${username}.`);
-    const iterator = github.paginate.iterator(github.rest.issues.listForRepo, {
+  if (
+    !isSafeSearchToken(owner) ||
+    !isSafeSearchToken(repo) ||
+    !isSafeSearchToken(username) ||
+    !isSafeSearchToken(BEGINNER_LABEL)
+  ) {
+    console.log('Invalid search inputs', {
       owner,
       repo,
-      state: 'closed',
-      labels: BEGINNER_LABEL,
-      assignee: username,
-      sort: 'updated',
-      direction: 'desc',
-      per_page: 100,
+      username,
+      label: BEGINNER_LABEL,
     });
+    return null;
+  }
 
-    const normalizedAssignee = username.toLowerCase();
-    let pageCount = 0;
-    const MAX_PAGES = 8;
+  try {
+    const searchQuery = [
+      `repo:${owner}/${repo}`,
+      `label:${BEGINNER_LABEL}`,
+      'is:issue',
+      'is:closed',
+      `assignee:${username}`,
+    ].join(' ');
 
-    for await (const { data: issues } of iterator) {
-      pageCount += 1;
-      if (pageCount > MAX_PAGES) {
-        console.log(`Reached pagination safety cap (${MAX_PAGES}) while checking Beginner issues for ${username}.`);
-        break;
-      }
+    console.log('GraphQL search query:', searchQuery);
 
-      console.log(`Scanning page ${pageCount} of closed '${BEGINNER_LABEL}' issues for ${username} (items: ${issues.length}).`);
-      const match = issues.find((issue) => {
-        if (issue.pull_request) {
-          return false;
+    const result = await github.graphql(
+      `
+      query ($query: String!) {
+        search(type: ISSUE, query: $query) {
+          issueCount
         }
-
-        const assignees = Array.isArray(issue.assignees) ? issue.assignees : [];
-        return assignees.some((assignee) => assignee?.login?.toLowerCase() === normalizedAssignee);
-      });
-
-      if (match) {
-        console.log(`Found matching Beginner issue #${match.number} (${match.html_url || 'no url'}) for ${username}.`);
-        return 1;
       }
-    }
+      `,
+      { query: searchQuery }
+    );
 
-    return 0;
+    const count = result?.search?.issueCount ?? 0;
+
+    console.log(`Completed Beginner issues for ${username}: ${count}`);
+
+    return count;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.log(`Unable to verify completed Beginner issues for ${username}: ${message}`);
+    console.log(
+      `Failed to count Beginner issues for ${username}: ${message}`
+    );
     return null;
   }
 }
