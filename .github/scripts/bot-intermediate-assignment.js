@@ -107,6 +107,7 @@ async function countCompletedBeginnerIssues(github, owner, repo, username) {
   }
 }
 
+
 async function hasExistingGuardComment(github, owner, repo, issueNumber, mentee) {
   const comments = await github.paginate(github.rest.issues.listComments, {
     owner,
