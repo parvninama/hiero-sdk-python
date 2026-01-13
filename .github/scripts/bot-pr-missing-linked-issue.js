@@ -7,7 +7,7 @@ module.exports = async ({ github, context }) => {
     prNumber = Number(process.env.PR_NUMBER) || context.payload.pull_request?.number;
 
     if (!prNumber) {
-      throw new Error('PR number could not be determined');
+      throw new Error('PR number could not be determined'); 
     }
     
     console.log(`Processing PR #${prNumber} (Dry run: ${isDryRun})`);
