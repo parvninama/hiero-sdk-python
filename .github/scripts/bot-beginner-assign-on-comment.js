@@ -89,7 +89,7 @@ async function countCompletedGfiIssues(github, owner, repo, username) {
       }
     }
     `,
-    { query: searchQuery }
+    { searchQuery }
   );
 
   return result?.search?.issueCount ?? 0;
