@@ -81,8 +81,6 @@ async function countCompletedGfiIssues(github, owner, repo, username) {
     `assignee:${username}`,
   ].join(' ');
 
-  console.log('[Beginner Bot] Search query:', searchQuery);
-
   const result = await github.graphql(
     `
     query ($searchQuery: String!) {
@@ -188,8 +186,6 @@ module.exports = async ({ github, context }) => {
 
     // 4. Logic Branch
     if (isAssignCommand) {
-      console.log('[Beginner Bot] ASSIGN command detected');
-      console.log('[Beginner Bot] Current assignees:', issue.assignees?.map(a => a.login));
       const completedGfiCount = await countCompletedGfiIssues(
         github,
         repo.owner.login,
@@ -199,18 +195,35 @@ module.exports = async ({ github, context }) => {
 
       if (completedGfiCount === null) {
         console.log("[Beginner Bot] Skipping GFI guard due to API error.");
-        return;
-      }
+      } else if (completedGfiCount < REQUIRED_GFI_COUNT) {
 
-      if (completedGfiCount < REQUIRED_GFI_COUNT) {
-        const comments = await github.rest.issues.listComments({
-          owner: repo.owner.login,
-          repo: repo.name,
-          issue_number: issue.number,
-        });
+        let allComments = [];
+        try {
+          allComments = await github.paginate(
+            github.rest.issues.listComments,
+            {
+              owner: repo.owner.login,
+              repo: repo.name,
+              issue_number: issue.number,
+              per_page: 100,
+            }
+          );
+        } catch (error) {
+          console.error("[Beginner Bot] Failed to fetch comments for GFI guard:", {
+            issue: issue.number,
+            commenter,
+            message: error.message,
+          });
+          return;
+        }
 
-        if (!comments.data.some((c) => c.body?.includes(BEGINNER_GUARD_MARKER))) {
-          await github.rest.issues.createComment({
+        const guardAlreadyPosted = allComments.some((c) =>
+          c.body?.includes(BEGINNER_GUARD_MARKER)
+        );
+
+        if (!guardAlreadyPosted) {
+          try{
+            await github.rest.issues.createComment({
             owner: repo.owner.login,
             repo: repo.name,
             issue_number: issue.number,
@@ -219,20 +232,38 @@ module.exports = async ({ github, context }) => {
 
 Before taking on a **beginner** issue, we ask contributors to complete at least one **Good First Issue** to get familiar with the workflow.
 
+👉 [Find a Good First Issue here](https://github.com/${repo.owner.login}/${repo.name}/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+First+Issue%22)
+
 Please try a GFI first, then come back — we’ll be happy to assign this! 😊`,
           });
+          console.log("[Beginner Bot] GFI guard comment posted.");
+          } catch(error){
+            console.error("[Beginner Bot] Failed to post GFI guard comment:",{
+              issue: issue.number,
+              commenter,
+              message: error.message,
+            });
+          }
         }
         return;
       }
       
       // --- ASSIGNMENT LOGIC ---
       if (issue.assignees && issue.assignees.length > 0) {
-        await github.rest.issues.createComment({
-          owner: repo.owner.login,
-          repo: repo.name,
-          issue_number: issue.number,
-          body: `👋 Hi @${commenter}, this issue is already assigned. Feel free to check other beginner issues!`,
-        });
+        try{
+          await github.rest.issues.createComment({
+            owner: repo.owner.login,
+            repo: repo.name,
+            issue_number: issue.number,
+            body: `👋 Hi @${commenter}, this issue is already assigned. Feel free to check other beginner issues!`,
+          });
+        } catch (error) {
+          console.error("[Beginner Bot] Failed to post already-assigned message:", {
+            issue: issue.number,
+            commenter,
+            message: error.message,
+          });
+        }
         return;
       }
 
@@ -363,3 +394,4 @@ Please try a GFI first, then come back — we’ll be happy to assign this! 😊
     });
   }
 };
+
