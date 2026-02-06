@@ -200,14 +200,12 @@ while IFS= read -r line; do
     # Track release sections
     if [[ $line =~ ^##\ \[Unreleased\] ]]; then
         current_release="Unreleased"
-        current_version="Unreleased"
         in_unreleased=1
         current_subtitle=""
         continue
     elif [[ $line =~ ^##\ \[([0-9]+\.[0-9]+\.[0-9]+)\] ]]; then
         latest_released_version="${BASH_REMATCH[1]}"
         current_release="$latest_released_version"
-        current_version="$latest_released_version"
         in_unreleased=0
         current_subtitle=""
         continue
