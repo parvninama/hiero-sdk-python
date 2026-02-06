@@ -90,8 +90,7 @@ PR_NUMBER=$(jq -r '.pull_request.number // empty' "$GITHUB_EVENT_PATH")
 MISSING_MARKER="<!-- changelog-missing-bot -->"
 WRONG_SECTION_MARKER="<!-- changelog-wrong-section-bot -->"
 
-# Version codes
-current_version=""
+# Latest released version
 latest_released_version=""
 
 # ANSI color codes
