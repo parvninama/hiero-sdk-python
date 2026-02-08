@@ -286,3 +286,4 @@ else
     echo -e "${GREEN}✅ Changelog check passed.${RESET}"
     exit 0
 fi
+
