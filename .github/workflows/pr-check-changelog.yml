@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   changelog-check:
@@ -21,6 +22,8 @@ jobs:
           egress-policy: audit
 
       - name: Run local changelog check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           chmod +x .github/scripts/pr-check-changelog.sh
           bash .github/scripts/pr-check-changelog.sh
