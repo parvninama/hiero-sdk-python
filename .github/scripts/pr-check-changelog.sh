@@ -216,7 +216,10 @@ while IFS= read -r line; do
 
     # Check each added bullet
     for added in "${added_bullets[@]}"; do
-        if [[ "$line" == "$added" ]]; then
+        normalized_line="$(echo "$line" | sed 's/[[:space:]]*$//')"
+        normalized_added="$(echo "$added" | sed 's/[[:space:]]*$//')"
+        
+        if [[ "$normalized_line" == "$normalized_added" ]]; then
             if [[ "$in_unreleased" -eq 1 && -n "$current_subtitle" ]]; then
                 correctly_placed+="$added   (placed under $current_subtitle)"$'\n'
             elif [[ "$in_unreleased" -eq 1 && -z "$current_subtitle" ]]; then
