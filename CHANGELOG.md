@@ -859,4 +859,4 @@ contract_call_local_pb2.ContractLoginfo -> contract_types_pb2.ContractLoginfo
 
 
 # [0.1.0] - 2025-02-19
-- Testing pr-check-changelog bot 
+- Testing pr-check-changelog bot  
