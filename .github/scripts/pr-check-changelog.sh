@@ -114,7 +114,7 @@ post_pr_comment() {
         return
     fi
 
-    curl -s -X POST \
+    curl -sS -o /dev/null -X POST \
         -H "Authorization: Bearer $GITHUB_TOKEN" \
         -H "Accept: application/vnd.github+json" \
         "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
