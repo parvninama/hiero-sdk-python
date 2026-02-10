@@ -19,7 +19,7 @@ This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - Format `tests/unit/hedera_trust_manager_test.py` with Black for consistent code style (#1539)
 - Format tests/unit/logger_test.py with black for code style consistency (#1541)
 - Format `tests/unit/batch_transaction_test.py` with Black.(`#1520`)
-- Style: formatted `tests/unit/prng_transaction_test.py` with black (#1546)
+- Style: formatted `tests/unit/prng_transaction_test.py` with black (#1546) 
 - Formatted contract unit tests with black for consistent style. (#1523)
 - Format account test files with Black (#1519)
 - Format `tests/unit/node*.py` with Black for consistent code style (#1545)
