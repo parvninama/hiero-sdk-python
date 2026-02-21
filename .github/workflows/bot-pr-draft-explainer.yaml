@@ -2,7 +2,7 @@
 
 name: PR Draft Explainer
 on:
-  pull_request:
+  pull_request_target:
     types: [converted_to_draft]
 
 permissions:
