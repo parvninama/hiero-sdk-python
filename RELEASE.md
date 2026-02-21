@@ -1,7 +1,7 @@
 # Release Process for the Hiero Python SDK
 
 This document describes how we handle versioning and publishing new releases of the Hiero Python SDK.
-
+ 
 ## Semantic Versioning
 
 We use [Semantic Versioning](https://semver.org) for this project:
