@@ -155,6 +155,8 @@ module.exports = async ({ github, context }) => {
         pull_number: prNumber,
         });
 
+        console.log(reviews);
+
         const hasChangeRequest = reviews.data.some(
             (review) => review.state === "CHANGES_REQUESTED",
         );
