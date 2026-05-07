@@ -41,7 +41,7 @@ const CONFIG = {
       },
     },
     {
-      owner: 'hiero-sdk-python',
+      owner: 'parvninama',
       repo:  'hiero-sdk-cpp',
       labels: {
         gfi:          'skill: good first issue',
