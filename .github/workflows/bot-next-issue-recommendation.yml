@@ -11,12 +11,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: next-issue-bot-${{ github.event.pull_request.number }}
+  group: next-issue-bot-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: false
 
 jobs:
   recommend-next-issue:
-    runs-on: hl-sdk-py-lin-md
+    runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
 
     steps:
