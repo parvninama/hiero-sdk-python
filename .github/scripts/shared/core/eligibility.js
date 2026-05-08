@@ -23,15 +23,22 @@ const { countClosedIssuesByAssignee } = require('../api/github-api');
 async function passesBypassCheck(github, homeRepo, username, candidate) {
   const idx = CONFIG.skillHierarchy.indexOf(candidate);
   if (idx === -1) return false;
+
   const atOrAbove = CONFIG.skillHierarchy.slice(idx);
 
   for (const key of atOrAbove) {
     const count = await countClosedIssuesByAssignee(
-      github, homeRepo.owner, homeRepo.repo, username,
-      repoLabelFor(homeRepo, key), 1,
+      github,
+      homeRepo.owner,
+      homeRepo.repo,
+      username,
+      repoLabelFor(homeRepo, key),
+      1,
     );
+
     if (count !== null && count >= 1) return true;
   }
+
   return false;
 }
 
@@ -49,10 +56,16 @@ async function passesBypassCheck(github, homeRepo, username, candidate) {
  */
 async function passesNormalCheck(github, homeRepo, username, prereq) {
   const count = await countClosedIssuesByAssignee(
-    github, homeRepo.owner, homeRepo.repo, username,
-    repoLabelFor(homeRepo, prereq.requiredLevel), prereq.requiredCount,
+    github,
+    homeRepo.owner,
+    homeRepo.repo,
+    username,
+    repoLabelFor(homeRepo, prereq.requiredLevel),
+    prereq.requiredCount,
   );
+
   if (count === null) return null;
+
   return count >= prereq.requiredCount;
 }
 
