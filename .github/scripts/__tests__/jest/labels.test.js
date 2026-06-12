@@ -7,11 +7,11 @@ const {
   determineLabel,
   ensureLabel,
   syncLabel,
-} = require('../review-sync/helpers/labels');
+} = require('../../review-sync/helpers/labels');
 const {
   QUEUE_LABELS,
   COMMUNITY_REVIEW,
-} = require('../review-sync/helpers/constants');
+} = require('../../review-sync/helpers/constants');
 
 describe('determineLabel', () => {
   test('0 approvals → queue:junior-committer', () => {

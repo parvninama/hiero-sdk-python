@@ -2,12 +2,12 @@
 //
 // tests/test-permissions.js
 
-const { createMockGithub } = require('./test-utils');
+const { createMockGithub } = require('../test-utils');
 const {
   getPermissionLevel,
   countApprovals,
   clearPermissionCache,
-} = require('../review-sync/helpers/permissions');
+} = require('../../review-sync/helpers/permissions');
 
 beforeEach(() => {
   clearPermissionCache();

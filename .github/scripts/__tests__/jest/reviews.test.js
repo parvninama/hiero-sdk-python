@@ -3,7 +3,7 @@
 // tests/reviews.test.js
 
 const { createMockGithub } = require('./test-utils');
-const { getLatestReviewStates } = require('../review-sync/helpers/reviews');
+const { getLatestReviewStates } = require('../../review-sync/helpers/reviews');
 
 describe('getLatestReviewStates', () => {
   test('single APPROVED returns approved', async () => {
