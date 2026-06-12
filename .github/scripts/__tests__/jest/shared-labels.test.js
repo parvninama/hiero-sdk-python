@@ -1,4 +1,7 @@
 // __tests__/jest/shared-labels.test.js
+//
+// Run from .github/scripts:
+// npm run test:js -- shared-labels.test.js
 
 function clearLabelEnv() {
   delete process.env.GOOD_FIRST_ISSUE_LABEL;
