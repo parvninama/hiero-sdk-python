@@ -1,6 +1,6 @@
 // __tests__/jest/test-utils.js
 //
-// Shared Jest test utilities 
+// Shared Jest test utilities
 //
 // Provides:
 //   - createMockGithub()  — mock GitHub API factory with call tracking
