@@ -12,7 +12,7 @@
  *   BEGINNER_LABEL, INTERMEDIATE_LABEL, ADVANCED_LABEL
  */
 
-const GOOD_FIRST_ISSUE_LABEL           = process.env.GOOD_FIRST_ISSUE_LABEL?.trim()           || 'Good First Issue';
+const GOOD_FIRST_ISSUE_LABEL           = process.env.GOOD_FIRST_ISSUE_LABEL?.trim()           || 'skill: Good First Issue';
 const GOOD_FIRST_ISSUE_CANDIDATE_LABEL = process.env.GOOD_FIRST_ISSUE_CANDIDATE_LABEL?.trim() || 'Good First Issue Candidate';
 const BEGINNER_LABEL                   = process.env.BEGINNER_LABEL?.trim()                   || 'skill: beginner';
 const INTERMEDIATE_LABEL               = process.env.INTERMEDIATE_LABEL?.trim()               || 'skill: intermediate';
